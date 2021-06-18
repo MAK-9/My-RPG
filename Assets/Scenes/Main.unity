@@ -1315,7 +1315,7 @@ GameObject:
   - component: {fileID: 501336722}
   - component: {fileID: 501336721}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1334,6 +1334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 3
+  interactionTransform: {fileID: 501336725}
 --- !u!135 &501336722
 SphereCollider:
   m_ObjectHideFlags: 0

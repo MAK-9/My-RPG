@@ -122,6 +122,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Keyboard",
+            "id": "5e1de1ce-9dcd-4a78-8c14-e5aae4c069f3",
+            "actions": [
+                {
+                    "name": "InventoryToggle",
+                    "type": "Button",
+                    "id": "4d9e24f3-e098-4454-9f24-0ebde313672c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f5caf911-822a-46fd-824c-12c76f7bf5c4",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InventoryToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

@@ -63,4 +63,9 @@ public class ControlsManager : MonoBehaviour
     {
         return controls.Mouse.MiddleClick.phase == InputActionPhase.Started;
     }
+
+    public bool InventoryToggled()
+    {
+        return controls.Keyboard.InventoryToggle.triggered;
+    }
 }

@@ -135,6 +135,33 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Keyboard"",
+            ""id"": ""5e1de1ce-9dcd-4a78-8c14-e5aae4c069f3"",
+            ""actions"": [
+                {
+                    ""name"": ""InventoryToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""4d9e24f3-e098-4454-9f24-0ebde313672c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f5caf911-822a-46fd-824c-12c76f7bf5c4"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventoryToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -147,6 +174,9 @@ public class @Controls : IInputActionCollection, IDisposable
         m_Mouse_ScrollWheel = m_Mouse.FindAction("ScrollWheel", throwIfNotFound: true);
         m_Mouse_Yaw = m_Mouse.FindAction("Yaw", throwIfNotFound: true);
         m_Mouse_MiddleClick = m_Mouse.FindAction("MiddleClick", throwIfNotFound: true);
+        // Keyboard
+        m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
+        m_Keyboard_InventoryToggle = m_Keyboard.FindAction("InventoryToggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -265,6 +295,39 @@ public class @Controls : IInputActionCollection, IDisposable
         }
     }
     public MouseActions @Mouse => new MouseActions(this);
+
+    // Keyboard
+    private readonly InputActionMap m_Keyboard;
+    private IKeyboardActions m_KeyboardActionsCallbackInterface;
+    private readonly InputAction m_Keyboard_InventoryToggle;
+    public struct KeyboardActions
+    {
+        private @Controls m_Wrapper;
+        public KeyboardActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @InventoryToggle => m_Wrapper.m_Keyboard_InventoryToggle;
+        public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(KeyboardActions set) { return set.Get(); }
+        public void SetCallbacks(IKeyboardActions instance)
+        {
+            if (m_Wrapper.m_KeyboardActionsCallbackInterface != null)
+            {
+                @InventoryToggle.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnInventoryToggle;
+                @InventoryToggle.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnInventoryToggle;
+                @InventoryToggle.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnInventoryToggle;
+            }
+            m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @InventoryToggle.started += instance.OnInventoryToggle;
+                @InventoryToggle.performed += instance.OnInventoryToggle;
+                @InventoryToggle.canceled += instance.OnInventoryToggle;
+            }
+        }
+    }
+    public KeyboardActions @Keyboard => new KeyboardActions(this);
     public interface IMouseActions
     {
         void OnLeftClick(InputAction.CallbackContext context);
@@ -273,5 +336,9 @@ public class @Controls : IInputActionCollection, IDisposable
         void OnScrollWheel(InputAction.CallbackContext context);
         void OnYaw(InputAction.CallbackContext context);
         void OnMiddleClick(InputAction.CallbackContext context);
+    }
+    public interface IKeyboardActions
+    {
+        void OnInventoryToggle(InputAction.CallbackContext context);
     }
 }

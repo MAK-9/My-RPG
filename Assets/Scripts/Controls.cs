@@ -147,6 +147,14 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""TestKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b2f3b0a-7c99-4f06-8a77-c1bbdc3594e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -158,6 +166,17 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""InventoryToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""08828633-6346-4338-94c4-54f390244561"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TestKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -177,6 +196,7 @@ public class @Controls : IInputActionCollection, IDisposable
         // Keyboard
         m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
         m_Keyboard_InventoryToggle = m_Keyboard.FindAction("InventoryToggle", throwIfNotFound: true);
+        m_Keyboard_TestKey = m_Keyboard.FindAction("TestKey", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -300,11 +320,13 @@ public class @Controls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Keyboard;
     private IKeyboardActions m_KeyboardActionsCallbackInterface;
     private readonly InputAction m_Keyboard_InventoryToggle;
+    private readonly InputAction m_Keyboard_TestKey;
     public struct KeyboardActions
     {
         private @Controls m_Wrapper;
         public KeyboardActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @InventoryToggle => m_Wrapper.m_Keyboard_InventoryToggle;
+        public InputAction @TestKey => m_Wrapper.m_Keyboard_TestKey;
         public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -317,6 +339,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @InventoryToggle.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnInventoryToggle;
                 @InventoryToggle.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnInventoryToggle;
                 @InventoryToggle.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnInventoryToggle;
+                @TestKey.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnTestKey;
+                @TestKey.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnTestKey;
+                @TestKey.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnTestKey;
             }
             m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
@@ -324,6 +349,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @InventoryToggle.started += instance.OnInventoryToggle;
                 @InventoryToggle.performed += instance.OnInventoryToggle;
                 @InventoryToggle.canceled += instance.OnInventoryToggle;
+                @TestKey.started += instance.OnTestKey;
+                @TestKey.performed += instance.OnTestKey;
+                @TestKey.canceled += instance.OnTestKey;
             }
         }
     }
@@ -340,5 +368,6 @@ public class @Controls : IInputActionCollection, IDisposable
     public interface IKeyboardActions
     {
         void OnInventoryToggle(InputAction.CallbackContext context);
+        void OnTestKey(InputAction.CallbackContext context);
     }
 }

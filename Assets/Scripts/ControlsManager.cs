@@ -68,4 +68,8 @@ public class ControlsManager : MonoBehaviour
     {
         return controls.Keyboard.InventoryToggle.triggered;
     }
+    public bool TestKeyToggled()
+    {
+        return controls.Keyboard.TestKey.triggered;
+    }
 }
